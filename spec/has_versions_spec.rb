@@ -171,6 +171,22 @@ describe "has_versions" do
     @post.versions.revert_to(-1).should be_nil
   end
   
+  it "should raise when trying to revert to a non-existing version" do
+    doing {
+      @post.versions.revert_to!(-1)
+    }.should raise_error(SimplesIdeias::Versions::Exception::VersionNotFound)
+  end
+  
+  it "should be nil when trying to get a non-existing version" do
+    @post.versions.get(-1).should be_nil
+  end
+  
+  it "should raise when trying to get to a non-existing version" do
+    doing {
+      @post.versions.get!(-1)
+    }.should raise_error(SimplesIdeias::Versions::Exception::VersionNotFound)
+  end
+  
   it "should not create version when saving without versioning" do
     doing {
       @post.title = 'Updated post'

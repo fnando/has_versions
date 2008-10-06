@@ -33,12 +33,18 @@ module SimplesIdeias
       
         def revert_to!(revision)
           object = revert_to(revision)
-          raise SimplesIdeias::Versions::ActiveRecord::Exception::VersionNotFound unless object
+          raise SimplesIdeias::Versions::Exception::VersionNotFound unless object
           object
         end
       
         def get(revision)
           proxy_owner.versions.first(:conditions => {:version => revision})
+        end
+        
+        def get!(revision)
+          object = get(revision)
+          raise SimplesIdeias::Versions::Exception::VersionNotFound unless object
+          object
         end
       end
     
@@ -126,10 +132,10 @@ module SimplesIdeias
           nil
         end
       end
+    end
     
-      module Exception
-        class VersionNotFound < StandardError; end
-      end
+    module Exception
+      class VersionNotFound < StandardError; end
     end
   end
 end

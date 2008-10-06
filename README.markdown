@@ -56,7 +56,7 @@ Then add the following code:
 Usage
 -----
 
-1) Add the association on your User model
+1) Add the association to your User model
 
 	class User < ActiveRecord::Base
 	  has_many :versions, :dependent => :nullify
@@ -84,16 +84,21 @@ Usage
 	# retrieve current version object
 	post.versions.current
 	
-	# retrieve a version #3
+	# retrieve version #3
 	post.versions.get(3)
+	
+	# retrive version #3 and
+	# raise SimplesIdeias::Versions::Exception::VersionNotFound
+	# if not found
 	
 	# revert to a specific version,
 	# returning nil if version is not found
 	post.versions.revert_to(1)
 	
-	# revert to a specific version,
-	# raising an error if version is not found
-	post.versions.revert_to(100)
+	# revert to a specific version and
+	# raise SimplesIdeias::Versions::Exception::VersionNotFound 
+	# if version is not found
+	post.versions.revert_to!(100)
 	
 	# save an object without creating a version
 	post.save_without_version # => same as post.save
