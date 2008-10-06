@@ -200,4 +200,12 @@ describe "has_versions" do
     @user.destroy
     @post.versions.current.user.should be_nil
   end
+  
+  it "should add diff helper" do
+    helper = ActionView::Base.new
+    helper.diff('displaying the authr name', 'displaying the author name').should have_tag('div.diff') do
+      with_tag 'del', 'authr'
+      with_tag 'ins', 'author'
+    end
+  end
 end

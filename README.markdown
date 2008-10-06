@@ -103,7 +103,7 @@ Usage
 	# set the user that created the version
 	post.version_author = user
 	
-	# retrieve version authr
+	# retrieve version author
 	post.version_author
 	
 	# return true if version number >= 1
@@ -132,13 +132,30 @@ Usage
 	has_versions :attributes => %w(content excerpt)
 	has_versions :auto => false
 	has_versions :except => :formatted_content
+	
+What about displaying a diff from two different versions? Well, you can use
+the helper method `diff`.
+
+	<%= diff @newer.data['content'], @newer.data['content'] %>
+
+Use this CSS to display some formatted text:
+
+	.diff ins {
+		background: #baffa6;
+		text-decoration: none;
+	}
+
+	.diff del {
+		background: #f88;
+		text-decoration: none;
+	}
 
 **NOTE**: You should have an User model. **Otherwise, this won't work!**
 
 To-Do
 -----
 
-* Create view helpers to display formatted version diffs
+* <del>Create view helpers to display formatted version diffs</del>
 
 Maintainer
 ----------
