@@ -96,10 +96,10 @@ module SimplesIdeias
       
         def create_version!
           returning self.versions.build do |v|
-            v.user    = @version_author
+            v.user_id = @version_author.id unless @version_author.nil?
             v.data    = versioned_attributes.inject({}) {|attrs, name| attrs[name] = send(name); attrs }
             v.save!
-
+            
             self.version = v.version
             self.connection.execute(%(UPDATE #{self.class.table_name} SET version = #{v.version} WHERE id = #{self.id}))
             v
@@ -111,7 +111,8 @@ module SimplesIdeias
         end
       
         def version_author
-          @version_author ||= versions.current.author
+          @version_author = versions.current.author unless @version_author.is_a?(Numeric) || @version_author.blank?
+          @version_author
         end
       
         def save_without_version?
